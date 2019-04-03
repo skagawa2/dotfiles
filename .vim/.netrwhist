@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Users/shawkagawa/Documents/UIUC/SP19/CS126/naivebayes-skagawa2/test.dSYM'
+let g:netrw_dirhist_2='/Users/shawkagawa/Documents/UIUC/SP19/CS126'
+let g:netrw_dirhist_3='/Users/shawkagawa/Documents/UIUC/SP19'
+let g:netrw_dirhist_4='/Users/shawkagawa/Documents/UIUC/SP19/ADSA'
+let g:netrw_dirhist_5='/Users/shawkagawa/Documents/UIUC/SP19'
+let g:netrw_dirhist_6='/Users/shawkagawa/Documents/UIUC/SP19/CS126'
+let g:netrw_dirhist_7='/Users/shawkagawa/Documents/UIUC/SP19/CS126/sudoku-skagawa2'
+let g:netrw_dirhist_8='/Users/shawkagawa/Documents/UIUC/SP19/CS126/naivebayes-skagawa2'
+let g:netrw_dirhist_9='/Users/shawkagawa'

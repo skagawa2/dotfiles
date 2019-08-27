@@ -1,3 +1,7 @@
+set nocompatible              " be iMproved, required
+
+filetype off                  " required
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -5,43 +9,68 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+"Autocomplete
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'rdnetto/YCM-Generator'
+"Plugin 'rdnetto/YCM-Generator'
+Plugin 'zxqfl/tabnine-vim'
+"Plugin 'klen/python-mode'
 
 "git interface
-Plugin 'tpope/vim-fugitive'
-" filesystem
+"Plugin 'tpope/vim-fugitive'
+
+"filesystem
 Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'kien/ctrlp.vim' 
+Plugin 'kien/ctrlp.vim'
 
 "html
 "  isnowfy only compatible with python not python3
 "Plugin 'isnowfy/python-vim-instant-markdown'
-"Plugin 'jtratner/vim-flavored-markdown'
-"Plugin 'suan/vim-instant-markdown'
-"Plugin 'nelstrom/vim-markdown-preview'
+"Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+
 " Python sytax checker
-Plugin 'nvie/vim-flake8'
-"Plugin 'vim-scripts/Pydiction'
+Plugin 'vim-scripts/Pydiction'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
 
-"auto-completion stuff
-Plugin 'klen/python-mode'
-"Plugin 'klen/rope-vim'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ervandew/supertab'
 "code folding
-"Plugin 'tmhedberg/SimpylFold'
+Plugin 'tmhedberg/SimpylFold'
 
 "C++
-Plugin 'octol/vim-cpp-enhanced-highlight'
+"Plugin 'octol/vim-cpp-enhanced-highlight'
 
+"pandoc/markdown
+"Plugin 'vim-pandoc/vim-pandoc'
+"Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'JamshedVesuna/vim-markdown-preview'
+
+"GOOGLE STYLEGUIDE
+" Add maktaba and codefmt to the runtimepath.
+" (The latter must be installed before it can be used.)
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+Plugin 'google/vim-glaive'
+
+"LaTeX editing
+"Plugin 'lervag/vimtex'
+
+"JSON highlighting
+"Plugin 'elzr/vim-json'
+
+"ReactJS highlighting
+"Plugin 'pangloss/vim-javascript'
+
+"statusline in vim
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+" the glaive#Install() should go after the "call vundle#end()"
+call glaive#Install()
 filetype plugin indent on    " required
+
 
 " Brief help
 " :PluginList       - lists configured plugins
@@ -52,6 +81,15 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" set the colortheme based on the terminal
+syntax enable
+if $TERM == 'ansi'
+	set t_Co=256
+	let g:solarized_termtrans=1
+	let g:solarized_termcolors=256
+	let g:solarized_visibility='normal'
+	let g:solarized_contrast='normal'
+endif
 set background=dark
 colorscheme solarized
 
@@ -59,15 +97,29 @@ colorscheme solarized
 set number
 set cursorline
 
-syntax enable
+" auto format code via Google's formatter
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+  autocmd FileType vue AutoFormatBuffer prettier
+augroup END
 
 " YouCompleteMe
+" Start autocompletion after 4 chars
+let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_min_num_identifier_candidate_chars = 4
+let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_python_binary_path = '/usr/bin/python'
 let g:ycm_auto_trigger = 1
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
-
-let g:airline#extensions#tabline#enabled = 1
+let g:ycm_global_ycm_extra_conf = '.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:pydiction_location = '/home/user/.vim/bundle/pydiction/complete-dict'
 
 " don't conceal in MD
 let g:pandoc#syntax#conceal#use = 0
@@ -79,6 +131,23 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 map <C-n> :NERDTreeToggle<CR>
 
 set foldlevel=99
+
+" markdown preview on write
+let vim_markdown_preview_toggle=2
+let vim_markdown_preview_browser='Google Chrome'
+
+"statusline for vim
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+let g:airline_solarized_bg='dark'
+
+" Ctrl-P
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 "------------Start C++ Google Style Guide------------
 let g:cpp_class_scope_highlight = 1
@@ -118,6 +187,9 @@ set backspace=indent,eol,start
 
 
 "------------Start Python PEP 8 stuff----------------
+" Draw line at col 79 to show text wrap limit
+au BufRead,BufNewFile *.py,*.pyw set colorcolumn=79
+
 " Number of spaces that a pre-existing tab is equal to.
 au BufRead,BufNewFile *py,*pyw set tabstop=4
 

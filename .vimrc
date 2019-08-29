@@ -10,10 +10,10 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 "Autocomplete
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 "Plugin 'rdnetto/YCM-Generator'
 Plugin 'zxqfl/tabnine-vim'
-"Plugin 'klen/python-mode'
+Plugin 'klen/python-mode'
 
 "git interface
 "Plugin 'tpope/vim-fugitive'

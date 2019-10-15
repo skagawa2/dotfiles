@@ -1,14 +1,19 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/opt/llvm/bin:$PATH
-export PATH="/Users/shawkagawa/.pyenv/bin:$PATH"
+export PATH=/usr/local/bin:/usr/local/opt/llvm/bin:$PATH
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 ### ALIASES
+alias make="make \
+CXXFLAGS='-std=c++1y -c -g -O0 -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wstrict-overflow=5 -Wwrite-strings \
+-Waggregate-return -Wcast-qual -Wswitch-default \
+-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk' \
+LDFLAGS='-std=c++1y -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wstrict-overflow=5 -Wwrite-strings \
+-Waggregate-return -Wcast-qual -Wswitch-default \
+-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk'"
 alias ll="ls -lhA"
 alias fhere="find . -name "
 alias du="du -ach | sort -h"
-
 
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
@@ -24,7 +29,6 @@ export ZSH="/Users/shawkagawa/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="powerlevel9k/powerlevel9k"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 #ZSH_THEME="solarized-powerline"
 
@@ -45,7 +49,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -80,7 +84,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux)
+plugins=(git tmux zsh-syntax-highlighting zsh-autosuggestions)
 
 #source $ZSH/oh-my-zsh.sh
 
@@ -119,3 +123,6 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ $TERM == xterm* ]] || : ${PURE_POWER_MODE:=portable}
 source ~/.purepower
+source /Users/shawkagawa/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH="/usr/local/opt/bison/bin:$PATH"
+export PATH="/Applications/Xcode.app/Contents/Developer/:$PATH"

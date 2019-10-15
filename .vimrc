@@ -1,6 +1,6 @@
 set nocompatible              " be iMproved, required
 
-filetype off                  " required
+"filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -9,14 +9,23 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+"vim-tmux
+"Plugin 'benmills/vimux'
+"Plugin 'christoomey/vim-tmux-navigator'
+"Plugin 'edkolev/tmuxline.vim'
+
+"prettier
+Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
+
 "Autocomplete
-"Plugin 'Valloric/YouCompleteMe'
 "Plugin 'rdnetto/YCM-Generator'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'rdnetto/YCM-Generator'
 Plugin 'zxqfl/tabnine-vim'
-Plugin 'klen/python-mode'
+"Plugin 'klen/python-mode'
 
 "git interface
-"Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 
 "filesystem
 Plugin 'scrooloose/nerdtree'
@@ -36,7 +45,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tmhedberg/SimpylFold'
 
 "C++
-"Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 "pandoc/markdown
 "Plugin 'vim-pandoc/vim-pandoc'
@@ -72,15 +81,6 @@ call glaive#Install()
 filetype plugin indent on    " required
 
 
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append  to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append  to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append  to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
 " set the colortheme based on the terminal
 syntax enable
 if $TERM == 'ansi'
@@ -90,36 +90,43 @@ if $TERM == 'ansi'
 	let g:solarized_visibility='normal'
 	let g:solarized_contrast='normal'
 endif
+" disable the Background Color Erase that messes with some color schemes
+set t_ut=
 set background=dark
-colorscheme solarized
+" set the terminal colors correctly using provided script
+silent exec "!sh ~/.vim/pack/themes/opt/solarized8/scripts/solarized8.sh"
+colorscheme solarized8
 
 " https://github.com/alz2/dotfiles/blob/master/.vimrc
 set number
 set cursorline
 
 " auto format code via Google's formatter
-augroup autoformat_settings
-  autocmd FileType bzl AutoFormatBuffer buildifier
-  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-  autocmd FileType dart AutoFormatBuffer dartfmt
-  autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  autocmd FileType java AutoFormatBuffer google-java-format
-  autocmd FileType python AutoFormatBuffer yapf
-  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-  autocmd FileType vue AutoFormatBuffer prettier
-augroup END
+" augroup autoformat_settings
+" 	autocmd FileType bzl AutoFormatBuffer buildifier
+" 	autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+" 	autocmd FileType dart AutoFormatBuffer dartfmt
+" 	autocmd FileType go AutoFormatBuffer gofmt
+" 	autocmd FileType gn AutoFormatBuffer gn
+" 	autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+" 	autocmd FileType java AutoFormatBuffer google-java-format
+" 	autocmd FileType python AutoFormatBuffer yapf
+" 	autocmd FileType python AutoFormatBuffer autopep8
+" 	autocmd FileType vue AutoFormatBuffer prettier
+" augroup END
 
 " YouCompleteMe
 " Start autocompletion after 4 chars
-let g:ycm_min_num_of_chars_for_completion = 4
-let g:ycm_min_num_identifier_candidate_chars = 4
-let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_min_num_of_chars_for_completion=4
+let g:ycm_min_num_identifier_candidate_chars=4
+let g:ycm_enable_diagnostic_highlighting=0
 let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_auto_trigger = 1
-let g:ycm_global_ycm_extra_conf = '.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:pydiction_location = '/home/user/.vim/bundle/pydiction/complete-dict'
+let g:ycm_auto_trigger=1
+let g:ycm_global_ycm_extra_conf='.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:pydiction_location='/home/user/.vim/bundle/pydiction/complete-dict'
+let g:ycm_server_use_vim_stdout=0
+let g:ycm_path_to_python_interpreter='/usr/bin/python'
+let g:ycm_server_python_interpreter='/usr/bin/python'
 
 " don't conceal in MD
 let g:pandoc#syntax#conceal#use = 0
@@ -143,11 +150,27 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
-let g:airline_solarized_bg='dark'
-
 " Ctrl-P
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+
+" Long undo in files
+set history=1000
+set undofile
+set undodir=~/.vim/undo
+set undolevels=1000
+set undoreload=10000
+set backupdir=~/.vim/backup
+set directory=~/.vim/backup
+
+"https://www.bugsnag.com/blog/tmux-and-vim
+" vv to generate new vertical split
+nnore map <silent> vv <C-w>v
+
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
 
 "------------Start C++ Google Style Guide------------
 let g:cpp_class_scope_highlight = 1
@@ -228,7 +251,7 @@ set backspace=indent,eol,start
 "Folding based on indentation:
 autocmd FileType python set foldmethod=indent
 "use space to open folds
-nnoremap <space> za 
+nnoremap <space> za
 "----------Stop python PEP 8 stuff--------------
 
 "js stuff

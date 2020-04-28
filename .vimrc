@@ -4,6 +4,7 @@ set nocompatible              " be iMproved, required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/usr/local/opt/fzf
 call vundle#begin()
 
 " let Vundle manage Vundle, required
@@ -14,14 +15,13 @@ Plugin 'VundleVim/Vundle.vim'
 "Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'edkolev/tmuxline.vim'
 
-"prettier
-Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
+"autoformat
+"Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 "Autocomplete
 "Plugin 'rdnetto/YCM-Generator'
 "Plugin 'Valloric/YouCompleteMe'
-Plugin 'rdnetto/YCM-Generator'
-Plugin 'zxqfl/tabnine-vim'
+"Plugin 'zxqfl/tabnine-vim'
 "Plugin 'klen/python-mode'
 
 "git interface
@@ -29,7 +29,8 @@ Plugin 'tpope/vim-fugitive'
 
 "filesystem
 Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
+"Plugin 'kien/ctrlp.vim'
+"Plugin 'junegunn/fzf.vim'
 
 "html
 "  isnowfy only compatible with python not python3
@@ -37,15 +38,13 @@ Plugin 'kien/ctrlp.vim'
 "Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
 
 " Python sytax checker
-Plugin 'vim-scripts/Pydiction'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'scrooloose/syntastic'
+"Plugin 'vim-scripts/Pydiction'
+"Plugin 'vim-scripts/indentpython.vim'
+"Plugin 'scrooloose/syntastic'
+Plugin 'tell-k/vim-autopep8'
 
 "code folding
 Plugin 'tmhedberg/SimpylFold'
-
-"C++
-Plugin 'octol/vim-cpp-enhanced-highlight'
 
 "pandoc/markdown
 "Plugin 'vim-pandoc/vim-pandoc'
@@ -55,11 +54,11 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 "GOOGLE STYLEGUIDE
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
-Plugin 'google/vim-maktaba'
-Plugin 'google/vim-codefmt'
+"Plugin 'google/vim-maktaba'
+"Plugin 'google/vim-codefmt'
 " Also add Glaive, which is used to configure codefmt's maktaba flags. See
 " `:help :Glaive` for usage.
-Plugin 'google/vim-glaive'
+"Plugin 'google/vim-glaive'
 
 "LaTeX editing
 "Plugin 'lervag/vimtex'
@@ -68,18 +67,26 @@ Plugin 'google/vim-glaive'
 "Plugin 'elzr/vim-json'
 
 "ReactJS highlighting
-"Plugin 'pangloss/vim-javascript'
+Plugin 'pangloss/vim-javascript'
 
 "statusline in vim
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
+
+"C++ linting
+"Plugin 'dense-analysis/ale'
+"C++
+Plugin 'octol/vim-cpp-enhanced-highlight'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-" the glaive#Install() should go after the "call vundle#end()"
-call glaive#Install()
+" the glaive#Install() should go after the call vundle#end()
+"call glaive#Install()
 filetype plugin indent on    " required
 
+" set mouse enabled for visual mode
+set mouse=a
 
 " set the colortheme based on the terminal
 syntax enable
@@ -102,31 +109,33 @@ set number
 set cursorline
 
 " auto format code via Google's formatter
-" augroup autoformat_settings
-" 	autocmd FileType bzl AutoFormatBuffer buildifier
-" 	autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-" 	autocmd FileType dart AutoFormatBuffer dartfmt
-" 	autocmd FileType go AutoFormatBuffer gofmt
-" 	autocmd FileType gn AutoFormatBuffer gn
-" 	autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-" 	autocmd FileType java AutoFormatBuffer google-java-format
-" 	autocmd FileType python AutoFormatBuffer yapf
-" 	autocmd FileType python AutoFormatBuffer autopep8
-" 	autocmd FileType vue AutoFormatBuffer prettier
-" augroup END
+"augroup autoformat_settings
+"	autocmd FileType bzl AutoFormatBuffer buildifier
+"	"autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+"	autocmd FileType dart AutoFormatBuffer dartfmt
+"	autocmd FileType go AutoFormatBuffer gofmt
+"	autocmd FileType gn AutoFormatBuffer gn
+"	autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+"	autocmd FileType java AutoFormatBuffer google-java-format
+"	autocmd FileType python AutoFormatBuffer yapf
+"	autocmd FileType python AutoFormatBuffer autopep8
+"	autocmd FileType vue AutoFormatBuffer prettier
+"augroup END
 
 " YouCompleteMe
 " Start autocompletion after 4 chars
-let g:ycm_min_num_of_chars_for_completion=4
-let g:ycm_min_num_identifier_candidate_chars=4
-let g:ycm_enable_diagnostic_highlighting=0
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_auto_trigger=1
-let g:ycm_global_ycm_extra_conf='.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:pydiction_location='/home/user/.vim/bundle/pydiction/complete-dict'
-let g:ycm_server_use_vim_stdout=0
-let g:ycm_path_to_python_interpreter='/usr/bin/python'
-let g:ycm_server_python_interpreter='/usr/bin/python'
+"let g:ycm_min_num_of_chars_for_completion=4
+"let g:ycm_min_num_identifier_candidate_chars=4
+"let g:ycm_enable_diagnostic_highlighting=0
+"let g:ycm_autoclose_preview_window_after_completion=1
+"let g:ycm_auto_trigger=0
+"let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+"let g:pydiction_location='~/.vim/bundle/pydiction/complete-dict'
+"let g:ycm_server_use_vim_stdout=1
+"let g:ycm_server_keep_logfiles=1
+"let g:ycm_server_log_level='debug'
+"let g:ycm_path_to_python_interpreter='/usr/bin/python'
+"let g:ycm_server_python_interpreter='/usr/bin/python'
 
 " don't conceal in MD
 let g:pandoc#syntax#conceal#use = 0
@@ -140,19 +149,19 @@ map <C-n> :NERDTreeToggle<CR>
 set foldlevel=99
 
 " markdown preview on write
-let vim_markdown_preview_toggle=2
-let vim_markdown_preview_browser='Google Chrome'
+"let vim_markdown_preview_toggle=2
+"let vim_markdown_preview_browser='Google Chrome'
 
 "statusline for vim
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+"let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 " Ctrl-P
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
 
 " Long undo in files
 set history=1000
@@ -171,6 +180,24 @@ nnore map <silent> vv <C-w>v
 map <Leader>vp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
 map <Leader>vl :VimuxRunLastCommand<CR>
+
+" Speed up matchparen when scrolling through large files
+let g:matchparen_timeout = 2
+let g:matchparen_insert_timeout = 2
+
+" ALE linters
+"let g:ale_linters = {'cpp': ['ccls', 'clang', 'clangcheck', 'clangd', 'clangtidy', 'clazy', 'cppcheck', 'cpplint', 'cquery', 'flawfinder', 'gcc']}
+"let g:ale_linters = {'cpp': ['ccls', 'clang', 'clangcheck', 'clangd', 'clangtidy', 'clazy', 'cppcheck', 'flawfinder']}
+"let g:ale_c_clangtidy_checks = ['-*', 'cppcoreguidelines-*']
+"let g:ale_fixers = {'cpp': ['clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify']}
+"let g:ale_fixers = {'cpp': ['remove_trailing_lines', 'trim_whitespace', 'uncrustify']}
+
+"------------Start MIPS Assembly Style--------------
+au BufRead,BufNewFile *.v,*.s set tabstop=4
+au BufRead,BufNewFile *.v,*.s set shiftwidth=4
+au BufRead,BufNewFile *.v,*.s set expandtab
+au BufRead,BufNewFile *.v,*.s set softtabstop=4
+"------------End MIPS Assembly Style----------------
 
 "------------Start C++ Google Style Guide------------
 let g:cpp_class_scope_highlight = 1

@@ -1,86 +1,107 @@
 set nocompatible              " be iMproved, required
 
-"filetype off                  " required
-
+filetype off                  " required
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=/usr/local/opt/fzf
-call vundle#begin()
+
+call plug#begin()
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+"Plug 'VundleVim/Vundle.vim'
 
 "vim-tmux
-"Plugin 'benmills/vimux'
-"Plugin 'christoomey/vim-tmux-navigator'
-"Plugin 'edkolev/tmuxline.vim'
+"Plug 'benmills/vimux'
+"Plug 'christoomey/vim-tmux-navigator'
+"Plug 'edkolev/tmuxline.vim'
 
 "autoformat
-"Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
+"Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 "Autocomplete
-"Plugin 'rdnetto/YCM-Generator'
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'zxqfl/tabnine-vim'
-"Plugin 'klen/python-mode'
+"Plug 'rdnetto/YCM-Generator'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'zxqfl/tabnine-vim'
+"Plug 'klen/python-mode'
+
+"onedark colorscheme
+Plug 'joshdick/onedark.vim'
 
 "git interface
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 "filesystem
-Plugin 'scrooloose/nerdtree'
-"Plugin 'kien/ctrlp.vim'
-"Plugin 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/The-NERD-tree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+"buffer tab bar
+Plug 'ap/vim-buftabline'
+
+"tagbar
+Plug 'majutsushi/tagbar'
+
+"tpope plugins
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-scriptease'
+
+"Plug 'kien/ctrlp.vim'
+"Plug 'junegunn/fzf.vim'
 
 "html
 "  isnowfy only compatible with python not python3
-"Plugin 'isnowfy/python-vim-instant-markdown'
-"Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+"Plug 'isnowfy/python-vim-instant-markdown'
+"Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
+
+" syntax
+Plug 'scrooloose/syntastic'
+Plug 'sheerun/vim-polyglot'  " syntax highlighting
 
 " Python sytax checker
-"Plugin 'vim-scripts/Pydiction'
-"Plugin 'vim-scripts/indentpython.vim'
-"Plugin 'scrooloose/syntastic'
-Plugin 'tell-k/vim-autopep8'
+"Plug 'vim-scripts/Pydiction'
+"Plug 'vim-scripts/indentpython.vim'
+"Plug 'tell-k/vim-autopep8'
 
 "code folding
-Plugin 'tmhedberg/SimpylFold'
+Plug 'tmhedberg/SimpylFold'
 
 "pandoc/markdown
-"Plugin 'vim-pandoc/vim-pandoc'
-"Plugin 'vim-pandoc/vim-pandoc-syntax'
-"Plugin 'JamshedVesuna/vim-markdown-preview'
+"Plug 'vim-pandoc/vim-pandoc'
+"Plug 'vim-pandoc/vim-pandoc-syntax'
+"Plug 'JamshedVesuna/vim-markdown-preview'
 
 "GOOGLE STYLEGUIDE
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
-"Plugin 'google/vim-maktaba'
-"Plugin 'google/vim-codefmt'
+"Plug 'google/vim-maktaba'
+"Plug 'google/vim-codefmt'
 " Also add Glaive, which is used to configure codefmt's maktaba flags. See
 " `:help :Glaive` for usage.
-"Plugin 'google/vim-glaive'
+"Plug 'google/vim-glaive'
 
 "LaTeX editing
-"Plugin 'lervag/vimtex'
+"Plug 'lervag/vimtex'
 
 "JSON highlighting
-"Plugin 'elzr/vim-json'
+"Plug 'elzr/vim-json'
 
 "ReactJS highlighting
-Plugin 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 
 "statusline in vim
-"Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'  " lighter version of above
 
 "C++ linting
-"Plugin 'dense-analysis/ale'
+"Plug 'dense-analysis/ale'
 "C++
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()            " required
+
 " the glaive#Install() should go after the call vundle#end()
 "call glaive#Install()
 filetype plugin indent on    " required
@@ -88,25 +109,55 @@ filetype plugin indent on    " required
 " set mouse enabled for visual mode
 set mouse=a
 
+" tagbar setup
+nmap <F8> :TagbarToggle<CR>
+
 " set the colortheme based on the terminal
-syntax enable
-if $TERM == 'ansi'
-	set t_Co=256
-	let g:solarized_termtrans=1
-	let g:solarized_termcolors=256
-	let g:solarized_visibility='normal'
-	let g:solarized_contrast='normal'
-endif
-" disable the Background Color Erase that messes with some color schemes
-set t_ut=
-set background=dark
-" set the terminal colors correctly using provided script
-silent exec "!sh ~/.vim/pack/themes/opt/solarized8/scripts/solarized8.sh"
-colorscheme solarized8
+syntax on
+" if $TERM == 'ansi'
+" 	set t_Co=256
+" 	let g:solarized_termtrans=1
+" 	let g:solarized_termcolors=256
+" 	let g:solarized_visibility='normal'
+" 	let g:solarized_contrast='normal'
+" endif
+" " disable the Background Color Erase that messes with some color schemes
+" set t_ut=
+" set background=dark
+" " set the terminal colors correctly using provided script
+" silent exec !sh ~/.vim/pack/themes/opt/solarized8/scripts/solarized8.sh
+" colorscheme solarized8
+
+" onedark configuration
+let g:lightline = {
+\ 'colorscheme': 'onedark',
+\ }
+let g:airline_theme='onedark'
+let g:onedark_hide_endofbuffer=1
+let g:onedark_termcolors=256
+let g:onedark_terminal_italics=0
+colorscheme onedark
 
 " https://github.com/alz2/dotfiles/blob/master/.vimrc
 set number
 set cursorline
+
+" syntastic defaults
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" vim-gitgutter statusline
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}
 
 " auto format code via Google's formatter
 "augroup autoformat_settings
@@ -141,8 +192,11 @@ set cursorline
 let g:pandoc#syntax#conceal#use = 0
 
 " nerdTree
+" open NERDTree if no files open
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" close NERDTree if its the last thing open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 map <C-n> :NERDTreeToggle<CR>
 
@@ -192,6 +246,13 @@ let g:matchparen_insert_timeout = 2
 "let g:ale_fixers = {'cpp': ['clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify']}
 "let g:ale_fixers = {'cpp': ['remove_trailing_lines', 'trim_whitespace', 'uncrustify']}
 
+"------------General Style--------------------------
+" Trailing tabs
+au BufRead,BufNewFile * match BadWhitespace /^	\+/
+" Trailing whitespace
+au BufRead,BufNewFile * match BadWhitespace /\s\+$/
+"------------End general style----------------------
+
 "------------Start MIPS Assembly Style--------------
 au BufRead,BufNewFile *.v,*.s set tabstop=4
 au BufRead,BufNewFile *.v,*.s set shiftwidth=4
@@ -211,11 +272,6 @@ au BufRead,BufNewFile *.hpp,*.cpp,*.h set expandtab
 au BufRead,BufNewFile *.hpp,*.cpp,*.h set softtabstop=2
 
 au BufNewFile *.hpp,*.cpp,*.h set fileformat=unix
-
-" Trailing tabs
-au BufRead,BufNewFile *.hpp,*.cpp,*.h match BadWhitespace /^	\+/
-" Trailing whitespace
-au BufRead,BufNewFile *.hpp,*.cpp,*.h match BadWhitespace /\s\+$/
 
 " Line width
 au BufRead,BufNewFile *.hpp,*.cpp,*.h set textwidth=79

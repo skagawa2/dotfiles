@@ -45,8 +45,8 @@ Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-scriptease'
 
-"Plug 'kien/ctrlp.vim'
-"Plug 'junegunn/fzf.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'junegunn/fzf.vim'
 
 "html
 "  isnowfy only compatible with python not python3
@@ -54,7 +54,7 @@ Plug 'tpope/vim-scriptease'
 "Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
 
 " syntax
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'sheerun/vim-polyglot'  " syntax highlighting
 
 " Python sytax checker
@@ -98,6 +98,9 @@ Plug 'itchyny/lightline.vim'  " lighter version of above
 "C++
 Plug 'octol/vim-cpp-enhanced-highlight'
 
+"ctags
+Plug 'ludovicchabant/vim-gutentags'
+
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -107,26 +110,112 @@ call plug#end()            " required
 filetype plugin indent on    " required
 
 " set mouse enabled for visual mode
-set mouse=a
+"set mouse=a
 
 " tagbar setup
-nmap <F8> :TagbarToggle<CR>
+nmap <C-m> :TagbarToggle<CR>
+
+"ctags gutentags
+let g:gutentags_project_root = ['Makefile', 'package.json', '.git']
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+ailmnS',
+      \ ]
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ '*/tests/*',
+      \ 'build',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'node_modules',
+      \ 'bower_components',
+      \ 'cache',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
+" to remove cached ctags
+" command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')
+set statusline+=%{gutentags#statusline()}
 
 " set the colortheme based on the terminal
-syntax on
-" if $TERM == 'ansi'
-" 	set t_Co=256
-" 	let g:solarized_termtrans=1
-" 	let g:solarized_termcolors=256
-" 	let g:solarized_visibility='normal'
-" 	let g:solarized_contrast='normal'
-" endif
-" " disable the Background Color Erase that messes with some color schemes
-" set t_ut=
-" set background=dark
-" " set the terminal colors correctly using provided script
-" silent exec !sh ~/.vim/pack/themes/opt/solarized8/scripts/solarized8.sh
-" colorscheme solarized8
+syntax enable
+
+" stuff from twitch/rwxrob
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set smartindent
+set autoindent
+set expandtab
+
+set scrolloff=20  " set the cursor to be the middle of the screen
+set autoindent
+" characters that show spaces, tabs, etc.
+set listchars=tab:→\ ,eol:↲,nbsp:␣,space:·,trail:·,extends:⟩,precedes:⟨
+set nolist  " use :set list to show whitespace characters again
+set textwidth=73
+set linebreak
+
+set noswapfile
+set icon
+"set hlsearch  " do not highlight everything after search
+
+" Generate ctags
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+" avoid most of the 'hint enter...' messages
+set shortmess=aoOtI
+" default buffer size for vim is small, set it to a larger amount
+set viminfo='20,<1000,s1000
+
+" auto pair brackets
+" inoremap (; (<CR>);<C-c>O
+" inoremap (, (<CR>),<C-c>O
+" inoremap {; {<CR>};<C-c>O
+" inoremap {, {<CR>},<C-c>O
+" inoremap [; [<CR>];<C-c>O
+" inoremap [, [<CR>],<C-c>O
 
 " onedark configuration
 let g:lightline = {
@@ -143,9 +232,9 @@ set number
 set cursorline
 
 " syntastic defaults
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -153,11 +242,17 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " vim-gitgutter statusline
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set statusline+=%{GitStatus()}
+"function! GitStatus()
+"  let [a,m,r] = GitGutterGetHunkSummary()
+"  return printf('+%d ~%d -%d', a, m, r)
+"endfunction
+"set statusline=%{GitStatus()}
+
+" Kite config
+set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
+" show last line of statusline
+set laststatus=2
+set noshowmode
 
 " auto format code via Google's formatter
 "augroup autoformat_settings
@@ -209,17 +304,6 @@ set foldlevel=99
 " markdown preview on write
 "let vim_markdown_preview_toggle=2
 "let vim_markdown_preview_browser='Google Chrome'
-
-"statusline for vim
-"let g:airline_powerline_fonts = 1
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-" Ctrl-P
-"let g:ctrlp_map = '<c-p>'
-"let g:ctrlp_cmd = 'CtrlP'
 
 " Long undo in files
 set history=1000

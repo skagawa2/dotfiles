@@ -229,7 +229,9 @@ colorscheme onedark
 
 " https://github.com/alz2/dotfiles/blob/master/.vimrc
 set number
-set cursorline
+" improve speed
+set nocursorline
+set lazyredraw
 
 " syntastic defaults
 "set statusline+=%#warningmsg#

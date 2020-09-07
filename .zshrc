@@ -1,27 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=/usr/local/bin:/usr/local/opt/llvm/bin:$PATH
-
-### ALIASES
-# alias make="make \
-# CXXFLAGS='-std=c++1y -c -g -O0 -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wstrict-overflow=5 -Wwrite-strings \
-# -Waggregate-return -Wcast-qual -Wswitch-default \
-# -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk' \
-# LDFLAGS='-std=c++1y -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wstrict-overflow=5 -Wwrite-strings \
-# -Waggregate-return -Wcast-qual -Wswitch-default \
-# -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk'"
-alias ll="ls -lah"
-alias rm="rm -vi"
-alias screen="byobu-screen"
-# alias fhere="find . -name "
-# alias du="du -ach | sort -h"
-
-# Set CLICOLOR if you want Ansi Colors in iTerm2
-export CLICOLOR=1
-
-# Set colors to match iTerm2 Terminal Colors
-export TERM=xterm-256color
-force_color_prompt=yes
-export SCREENRC="~/.screenrc"
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/shawkagawa/.oh-my-zsh"
@@ -29,13 +7,12 @@ export ZSH="/Users/shawkagawa/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
-#ZSH_THEME="solarized-powerline"
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
@@ -49,8 +26,14 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
 # Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=13
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -81,13 +64,13 @@ export UPDATE_ZSH_DAYS=13
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux zsh-syntax-highlighting zsh-autosuggestions fzf)
+plugins=(git fzf dnf zsh-syntax-highlighting zsh-autosuggestions bgnotify)
 
-#source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -106,38 +89,16 @@ plugins=(git tmux zsh-syntax-highlighting zsh-autosuggestions fzf)
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="vi ~/.zshrc"
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# fzf configuration
-export FZF_BASE=/usr/local/bin/fzf
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
-# Custom Prompt Style
-DEFAULT_USER=shawkagawa
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-[[ $TERM == xterm* ]] || : ${PURE_POWER_MODE:=portable}
-source ~/.purepower
-source /Users/shawkagawa/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.oh-my-zsh/plugins/fzf/fzf.plugin.zsh
-export PATH="/usr/local/opt/bison/bin:$PATH"
-export PATH="/Applications/Xcode.app/Contents/Developer/:$PATH"
-export PATH="/Applications/gtkwave.app/Contents/Resources/bin/:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
-export PATH="/usr/local/opt/ncurses/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/ncurses/bin:$PATH"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+alias vi=nvim

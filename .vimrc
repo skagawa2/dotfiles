@@ -6,9 +6,6 @@ set rtp+=/usr/local/opt/fzf
 
 call plug#begin()
 
-" let Vundle manage Vundle, required
-"Plug 'VundleVim/Vundle.vim'
-
 "vim-tmux
 "Plug 'benmills/vimux'
 "Plug 'christoomey/vim-tmux-navigator'
@@ -101,6 +98,9 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 "ctags
 Plug 'ludovicchabant/vim-gutentags'
 
+"Go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -116,7 +116,7 @@ filetype plugin indent on    " required
 nmap <C-m> :TagbarToggle<CR>
 
 "ctags gutentags
-let g:gutentags_project_root = ['Makefile', 'package.json', '.git']
+let g:gutentags_project_root = ['makefile', 'package.json', '.git']
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 let g:gutentags_generate_on_new = 1
 let g:gutentags_generate_on_missing = 1
@@ -124,7 +124,7 @@ let g:gutentags_generate_on_write = 1
 let g:gutentags_generate_on_empty_buffer = 0
 let g:gutentags_ctags_extra_args = [
       \ '--tag-relative=yes',
-      \ '--fields=+ailmnS',
+      \ '--fields=+ailmns',
       \ ]
 let g:gutentags_ctags_exclude = [
       \ '*.git', '*.svg', '*.hg',
@@ -155,7 +155,7 @@ let g:gutentags_ctags_exclude = [
       \ '*.pyc',
       \ '*.class',
       \ '*.sln',
-      \ '*.Master',
+      \ '*.master',
       \ '*.csproj',
       \ '*.tmp',
       \ '*.csproj.user',
@@ -251,7 +251,7 @@ let g:syntastic_check_on_wq = 0
 "set statusline=%{GitStatus()}
 
 " Kite config
-set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
+"set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 " show last line of statusline
 set laststatus=2
 set noshowmode
@@ -335,6 +335,11 @@ let g:matchparen_insert_timeout = 2
 "let g:ale_c_clangtidy_checks = ['-*', 'cppcoreguidelines-*']
 "let g:ale_fixers = {'cpp': ['clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify']}
 "let g:ale_fixers = {'cpp': ['remove_trailing_lines', 'trim_whitespace', 'uncrustify']}
+
+"------------Markdown Settings----------------------
+" Spellcheck
+autocmd FileType markdown setlocal spell
+"------------End Markdown Settings------------------
 
 "------------General Style--------------------------
 " Trailing tabs
